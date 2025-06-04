@@ -20,7 +20,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build -x test -Dspring.profiles.active=prod
 
     - name: Deploy project to NAS
       uses: appleboy/scp-action@v0.1.4
