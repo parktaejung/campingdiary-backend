@@ -14,11 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.campingdiary.domain.CampingLog;
 import com.campingdiary.repository.CampingLogRepository;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 @SpringBootTest
 class CampingLogServiceTest {
 
