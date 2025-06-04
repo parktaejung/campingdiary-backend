@@ -44,4 +44,9 @@ jobs:
           /usr/local/bin/docker stop campinglog-app || true
           /usr/local/bin/docker rm campinglog-app || true
           /usr/local/bin/docker build -t campingdiary-backend .
-          /usr/local/bin/docker run -d --name campinglog-app -p 8080:8080 campingdiary-backend --spring.profiles.active=prod
+          /usr/local/bin/docker run -d \
+          --dns=8.8.8.8 \
+          --name campinglog-app \
+          -p 8080:8080 \
+          campingdiary-backend \
+          --spring.profiles.active=prod
