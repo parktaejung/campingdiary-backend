@@ -18,10 +18,16 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-
+    - name: Run tests
+      run: ./gradlew test
+     
     - name: Build with Gradle
-      run: ./gradlew build -x test -Dspring.profiles.active=prod
-
+      run: ./gradlew build -Dspring.profiles.active=prod
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: junit-report
+        path: build/test-results/test
     - name: Deploy project to NAS
       uses: appleboy/scp-action@v0.1.4
       with:
