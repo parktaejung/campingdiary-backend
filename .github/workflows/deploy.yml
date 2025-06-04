@@ -29,7 +29,7 @@ jobs:
         username: ${{ secrets.NAS_USER }}
         password: ${{ secrets.NAS_PASSWORD }}
         port: 22
-        source: "."  # 전체 프로젝트 또는 Dockerfile과 build/libs/*.jar
+        source: "build/libs/*.jar"  # jar만 전송
         target: "/volume1/docker/campinglog"
 
     - name: SSH to NAS and deploy container
