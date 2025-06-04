@@ -41,7 +41,7 @@ jobs:
         port: 22
         script: |
           cd /volume1/docker/campinglog
-          docker stop campinglog-app || true
-          docker rm campinglog-app || true
-          docker build -t campingdiary-backend .
-          docker run -d --name campinglog-app -p 8080:8080 campingdiary-backend
+          sudo docker stop campinglog-app || true
+          sudo docker rm campinglog-app || true
+          sudo docker build -t campingdiary-backend .
+          sudo docker run -d --name campinglog-app -p 8080:8080 campingdiary-backend
