@@ -1,0 +1,47 @@
+name: Deploy to Synology NAS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Deploy project to NAS
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: kaerae.myds.me
+        username: ${{ secrets.NAS_USER }}
+        password: ${{ secrets.NAS_PASSWORD }}
+        port: 22
+        source: "."  # 전체 프로젝트 또는 Dockerfile과 build/libs/*.jar
+        target: "/volume1/docker/campinglog"
+
+    - name: SSH to NAS and deploy container
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: kaerae.myds.me
+        username: ${{ secrets.NAS_USER }}
+        password: ${{ secrets.NAS_PASSWORD }}
+        port: 22
+        script: |
+          cd /volume1/docker/campinglog
+          docker stop campinglog-app || true
+          docker rm campinglog-app || true
+          docker build -t campingdiary-backend .
+          docker run -d --name campinglog-app -p 8080:8080 campingdiary-backend
